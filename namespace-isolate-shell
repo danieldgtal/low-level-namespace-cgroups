@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Check for required Tools 
+sudo apt update && sudo apt install -y util-linux cgroup-tools
+
+# Create a namespace isolated shell
+sudo unshare --fork --pid --mount-proc --net --uts --ipc --user --map-root-user /bin/bash
+
+# Limit CPU with Cgroups
+sudo cgcreate -g cpu:/mygroup
+
+# Limit to 50% of a CPU core:
+echo 50000 | sudo tee /sys/fs/cgroup/cpu/mygroup/cpu.cfs_quota_us
+echo 100000 | sudo tee /sys/fs/cgroup/cpu/mygroup/cpu.cfs_period_us
+
+
+# Run a CPU Intensive task in the Cgroup
+sudo cgexec -g cpu:mygroup stress --cpu 1
+
+# Install stress
+sudo apt install -y stress
+
+# Clean Up
+sudo cgdelete -g cpu:/mygroup
+

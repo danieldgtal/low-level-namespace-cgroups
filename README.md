@@ -1,0 +1,23 @@
+# chroot-lab-gcp
+
+This project demonstrates launching a small GCP VM and creating a minimal chroot jail to understand filesystem isolation, Linux namespaces, and container fundamentals.
+## 🛠️ Steps Covered
+
+- Set up a GCP project and enabled billing
+- Used `gcloud` CLI from Cloud Shell to create a Debian VM
+- Created a minimal chroot jail
+- Explored filesystem isolation by entering the jail environment
+
+## ✅ VM Specs
+
+- Name: `chroot-lab-vm`
+- Type: `e2-micro` (free tier eligible)
+- Image: Debian 11
+- Region: `us-central1-a`
+
+## 🔁 Cleanup
+
+To delete the VM when done:
+```bash
+gcloud compute instances delete chroot-lab-vm --zone=us-central1-a
+
